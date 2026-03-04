@@ -1,0 +1,22 @@
+{
+  "name": "qa-automation-assessment",
+  "version": "1.0.0",
+  "private": true,
+  "description": "UI automation with Playwright + performance testing with k6 (reqres.in).",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report",
+    "lint": "eslint .",
+    "format": "prettier -w .",
+    "perf": "mkdir -p performance/output && docker run --rm -i -v $(pwd):/work -w /work grafana/k6 run performance/main.js",
+    "perf:ci": "mkdir -p performance/output && docker run --rm -i -v $(pwd):/work -w /work grafana/k6 run performance/main.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.13.0",
+    "eslint": "^9.19.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.3"
+  }
+}
