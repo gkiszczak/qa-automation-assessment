@@ -6,7 +6,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  ui:
+  ui-tests:
     name: UI tests (Playwright)
     runs-on: ubuntu-latest
 
