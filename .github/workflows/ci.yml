@@ -63,7 +63,7 @@ jobs:
   perf:
     name: Performance tests (k6 via Docker)
     runs-on: ubuntu-latest
-    needs: ui
+    needs: ui-tests
 
     steps:
       - uses: actions/checkout@v4
