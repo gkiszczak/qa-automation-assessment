@@ -9,7 +9,6 @@ jobs:
   ui:
     name: UI tests (Playwright)
     runs-on: ubuntu-latest
-    timeout-minutes: 20
 
     steps:
       - uses: actions/checkout@v4
@@ -18,10 +17,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
-      - name: Install deps
-        run: npm ci
+      - name: Install dependencies
+        run: npm install
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
@@ -36,7 +34,7 @@ jobs:
           name: playwright-report
           path: playwright-report
 
-      - name: Upload raw test results (traces/videos)
+      - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -46,23 +44,13 @@ jobs:
   perf:
     name: Performance tests (k6 via Docker)
     runs-on: ubuntu-latest
-    timeout-minutes: 20
     needs: ui
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install deps
-        run: npm ci
-
-      - name: Run k6 (Docker) + generate artifacts
-        run: npm run perf:ci
+      - name: Run k6 performance test
+        run: npm run perf
 
       - name: Upload k6 summary
         if: always()
@@ -71,9 +59,10 @@ jobs:
           name: k6-summary
           path: performance/output/summary.json
 
-      - name: Upload generated performance report
+      - name: Upload performance report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: k6-report
           path: performance/output/performance-report.generated.md
+          
