@@ -65,6 +65,11 @@ jobs:
     name: Performance Tests (k6 via Docker)
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    
+    env:
+      REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
+      K6_STRICT: "false"
+      K6_SCENARIO: "users_list"
   
     steps:
       - uses: actions/checkout@v4
@@ -74,16 +79,6 @@ jobs:
   
       - name: Run k6 (Docker) + generate artifacts
         run: npm run perf:ci
-        env:
-          K6_STRICT: "false"
-  
-      - name: Debug output listing
-        if: always()
-        run: |
-          echo "PWD=$(pwd)"
-          ls -la
-          ls -la performance || true
-          ls -la performance/output || true
   
       - name: Upload performance artifacts (output folder)
         if: always()
