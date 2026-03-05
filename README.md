@@ -118,3 +118,63 @@ Do not automate when:
 ## What belongs to performance vs functional testing?
 - **Functional**: correctness for given inputs (workflow works, correct validation, expected UI/API behavior).
 - **Performance**: correctness *under load* and non-functional qualities (latency percentiles, throughput, error rate, resource saturation).
+
+## Performance Testing Notes
+
+During the implementation of performance tests several issues were identified.
+
+
+### Authentication
+Initial requests failed with **100% error rate** because the API requires an authentication header:
+
+```
+x-api-key
+```
+
+The header was added and the key is provided via the environment variable:
+
+```
+REQRES_API_KEY
+```
+
+to avoid hardcoding credentials.
+
+---
+
+### Cloudflare Protection
+Requests executed from GitHub Actions sometimes return:
+
+```
+403 Forbidden
+```
+
+with a Cloudflare challenge page (`Just a moment...`).  
+This indicates the public demo API (`reqres.in`) blocks automated traffic from cloud infrastructure.
+
+Because k6 is a headless HTTP client, it cannot solve JavaScript-based Cloudflare challenges.
+
+---
+
+### Demo API Limitations
+`reqres.in` is a public demo API and not intended for load testing.  
+Observed limitations include:
+
+- rate limiting
+- WAF protection
+- inconsistent responses from CI environments
+
+These factors may affect performance test stability.
+
+---
+
+### Improvements
+The implementation includes:
+
+- custom metrics (`status_2xx`, `status_4xx`, `status_5xx`, `status_429`)
+- limited error logging for debugging
+- CI artifacts:
+
+```
+performance/output/summary.json
+performance/output/performance-report.generated.md
+```

@@ -5,5 +5,5 @@ const client = new ReqResClient();
 
 export function scenarioUsersList() {
   client.getUsersList();
-  sleep(1);
+  sleep(1); // 1 request per second per user
 }
