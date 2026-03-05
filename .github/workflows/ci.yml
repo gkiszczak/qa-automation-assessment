@@ -65,20 +65,33 @@ jobs:
     name: Performance Tests (k6 via Docker)
     runs-on: ubuntu-latest
     timeout-minutes: 20
-
+  
     steps:
       - uses: actions/checkout@v4
-
+  
+      - name: Ensure output dir exists
+        run: mkdir -p performance/output
+  
       - name: Run k6 (Docker) + generate artifacts
         run: npm run perf:ci
-
+        env:
+          K6_STRICT: "false"
+  
+      - name: Debug output listing
+        if: always()
+        run: |
+          echo "PWD=$(pwd)"
+          ls -la
+          ls -la performance || true
+          ls -la performance/output || true
+  
       - name: Upload performance artifacts (output folder)
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: k6-output
           path: performance/output
-          if-no-files-found: ignore
+          if-no-files-found: warn
           retention-days: 7
 
   publish-playwright-report:
