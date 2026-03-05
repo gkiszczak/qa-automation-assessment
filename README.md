@@ -48,13 +48,14 @@ npm run test:ui
 - Failed login: `locked_out_user`
 - Add a product to cart
 - Start checkout process (reach `checkout-step-one.html`)
+### **Additional design idea**: adding to cart and starting checkout scenarios could be separated. It would be more efficient to use API to add item to cart and start checkout scenario.
 
 ## Bonus — CI
 GitHub Actions workflow is included:
 - Runs on push to `main` and on PRs
 - Uploads:
   - HTML report (`playwright-report`)
-  - raw test results including traces/videos (`test-results`)
+  - raw test results including traces/videos on failure (`test-results`)
 
 ## Task 2 — Performance testing (k6 via Docker)
 

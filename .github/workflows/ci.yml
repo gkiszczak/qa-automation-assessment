@@ -93,7 +93,7 @@ jobs:
     name: Publish Playwright report to GitHub Pages (latest)
     runs-on: ubuntu-latest
     needs: ui-tests
-    # Publikuj tylko dla main (żeby nie mieszać raportów z PR-ów)
+    # Pubish only for the main branch
     if: always() && github.ref == 'refs/heads/main'
     timeout-minutes: 10
 

@@ -10,7 +10,7 @@ const STRICT = getEnvString('K6_STRICT', 'false').toLowerCase() === 'true';
 export const options = {
   scenarios: {
     users_list: {
-      executor: 'constant-arrival-rate',
+      executor: 'constant-vus',
       rate: RPS,
       timeUnit: '1s',
       duration: DURATION,

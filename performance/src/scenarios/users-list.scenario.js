@@ -5,5 +5,5 @@ const client = new ReqResClient();
 
 export function scenarioUsersList() {
   client.getUsersList();
-  sleep(0.1);
+  sleep(1);
 }
